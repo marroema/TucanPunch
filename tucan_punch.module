@@ -1,0 +1,17 @@
+<?php
+
+function tucan_punch_help($path, $arg) {
+    switch ($path) {
+        case "admin/help#tucan_punch":
+            return '' . t("Module built to help employees to set when they came in and go out from work") . '';
+            break;
+    }
+}
+
+function tucan_punch_block_info(){
+  $blocks['tucan_punch'] = array(
+    'info' => t('Tucan Punch'),
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+    );
+  return $blocks;
+}
