@@ -15,3 +15,88 @@ function tucan_punch_block_info(){
     );
   return $blocks;
 }
+
+function tucan_punch_menu() {
+  $items = array();
+
+  $items['admin/config/content/tucan_punch'] = array(
+    'title' => 'Menu config',
+    'description' => 'Configuration for tucan_punch module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tucan_punch_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function tucan_punch_form($form, &$form_state){
+  $form['submit_but'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Accepted IP addresses'),
+    );
+  return system_settings_form($form);
+}
+
+
+
+
+
+
+/*
+es necesario crear una funcion para guardar la info del empleado (la locacion, la ip, el horario, un ID, por ahora estos campos...podrian ser mas)
+
+
+por otra parte, una vez creado el block, debe tener un boton para el debido registro
+
+al presionar el boton, se guardaran los datos mencionados anteriormente Y cambiar de titulo: antes d entrar dira PUNCH IN, y para salir dira PUNCH OUT
+
+
+ */
+function tucan_punch_block_view($delta = ''){
+  switch ($delta) {
+    case 'tucan_punch':
+      $block['subject'] = t('Tucan Punch Baby');
+      $block['content'] = array(
+            '#theme' => 'button__tucan_punch__block',
+            '#value' => 'Entrar',
+            '#type' => 'submit',
+            );
+      break;
+  }
+  return $block;
+}
+/*
+function tucan_punch_block_view($delta = ''){
+  switch ($delta) {
+    case 'tucan_punch':
+      $block['subject'] = t('Tucan Punch Baby');
+      $block['content'] = tucan_punch_my_form($f, $r);/*array(
+            '#theme' => 'button__tucan_punch__block',
+            '#value' => 'Entrar',
+            '#type' => 'submit',
+            );
+      $block['content'] = theme('button', array('value' => 'Punchinator'));
+
+      $form = array();
+      $block['content'] = $form['name_form_ema'] = array('#type' => 'submit', '#value' => 'submit');
+      break;
+  }
+  return $block;
+}
+
+
+function tucan_punch_my_form($form, &$form_state) {
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'ENTRAR',
+  );
+  return $form;
+}
+
+
+function tucan_punch_form_submit($form, &$form_state){
+  drupal_set_message(t('Submitted'));
+}*/
