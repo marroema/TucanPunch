@@ -1,0 +1,5 @@
+name = Admin Punch
+description = A block module where the user can mark its in and out time of work
+core = 7.x
+
+configure = admin/config/content/admin_punch

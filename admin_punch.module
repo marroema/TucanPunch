@@ -1,0 +1,141 @@
+<?php
+
+function admin_punch_help($path, $arg) {
+    switch ($path) {
+        case "admin/help#admin_punch":
+            return '' . t("Module built to help employees to set when they came in and go out from work") . '';
+            break;
+    }
+}
+
+function admin_punch_block_info(){
+  $blocks['admin_punch'] = array(
+    'info' => t('Admin Punch'),
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+    );
+  return $blocks;
+}
+
+
+
+
+
+
+
+
+
+
+
+//funcion para el menu de configuracion
+function admin_punch_menu() {
+  $items = array();
+
+  $items['admin/config/content/admin_punch'] = array(
+    'title' => 'Menu configuration',
+    'description' => 'Configuration for admin_punch module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admin_punch_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+
+
+
+//formulario para la configuracion
+function admin_punch_form($form, &$form_state){
+  $form['administration_form'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Accepted IP addresses'),
+    );
+  return system_settings_form($form);
+}
+
+
+
+function admin_punch_first_form($form, &$form_state){
+
+global $user;
+$ka = user_load($user->uid, true);
+$ka2 = $ka->uid;
+
+  $form['name_of_user'] = array(
+    '#title' => t('enter your name'),
+    '#type' => 'textfield',
+    '#value' => $ka2,
+    //'#type' => 'hidden',
+    );
+  $form['button_s'] = array(
+    '#type' => 'submit',
+    '#value' => 'Punch in',
+    );
+  return $form;
+}
+
+
+
+
+/*
+es necesario crear una funcion para guardar la info del empleado (la locacion, la ip, el horario, un ID, por ahora estos campos...podrian ser mas)
+
+
+por otra parte, una vez creado el block, debe tener un boton para el debido registro
+
+al presionar el boton, se guardaran los datos mencionados anteriormente Y cambiar de titulo: antes d entrar dira PUNCH IN, y para salir dira PUNCH OUT
+
+
+ */
+
+
+
+//Vista del boque
+function admin_punch_block_view($delta = ''){
+  switch ($delta) {
+    case 'admin_punch':
+      $block['subject'] = t('Admin Punch!!');
+      /*$block['content'] = array(
+            '#theme' => 'button__admin_punch__block',
+            '#value' => 'Entrar',
+            '#type' => 'submit',
+            );*/
+      $block['content'] = drupal_get_form('admin_punch_first_form');
+      break;
+  }
+  return $block;
+}
+/*
+function admin_punch_block_view($delta = ''){
+  switch ($delta) {
+    case 'admin_punch':
+      $block['subject'] = t('admin Punch Baby');
+      $block['content'] = admin_punch_my_form($f, $r);/*array(
+            '#theme' => 'button__admin_punch__block',
+            '#value' => 'Entrar',
+            '#type' => 'submit',
+            );
+      $block['content'] = theme('button', array('value' => 'Punchinator'));
+
+      $form = array();
+      $block['content'] = $form['name_form_ema'] = array('#type' => 'submit', '#value' => 'submit');
+      break;
+  }
+  return $block;
+}
+
+
+function admin_punch_my_form($form, &$form_state) {
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'ENTRAR',
+  );
+  return $form;
+}
+
+
+function admin_punch_form_submit($form, &$form_state){
+  drupal_set_message(t('Submitted'));
+}*/
